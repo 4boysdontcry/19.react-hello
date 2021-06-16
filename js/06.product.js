@@ -20,7 +20,7 @@ class Search extends Component {
 	state = {
 		content: ''
 	}
-	
+		
 	searchRef = createRef()
 
 	onClose = (e) => {
