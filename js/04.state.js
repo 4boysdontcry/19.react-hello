@@ -29,6 +29,7 @@ class Title extends React.Component {
 
 /*********** Search *************/
 class Search extends React.Component {
+
 	onInputChange = (e) => {
 		// 하위 컴포넌트가 상위 컴포넌트에게 값을 전달하여면 event로 보내야 한다.
 		this.props.onChangeTitle(e.target.value)
