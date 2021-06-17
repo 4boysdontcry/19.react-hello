@@ -34,6 +34,7 @@ class Search extends Component {
 		this.setState({
 			content: e.target.value
 		})
+    this.props.onChange(e.target.value)
 	}
 
 	render(){
@@ -57,12 +58,46 @@ class Search extends Component {
 }
 
 
+/* ********************** Lists ************************* */
+class Lists extends Component {
+  render() {
+    return (
+      <ul className="list-wrapper">
+      {/* 중괄호 안에 적는건 데이터를 가져오는 부분 map으로 for문을 대체해서 List를 만들어준다 */}
+        {
+          this.props.evt.map( v => <List key={ uuidv4() } v={ v } /> )
+        }
+      </ul>
+    );
+  }
+}
+
+
+/* ********************** List ************************* */
+class List extends Component {
+  render() {
+    const { src, title, price } = this.props.v
+    return (
+      <li className="list-wrap">
+        <div className="img-wrap">
+          <img src={ "../img/" + src } alt={ title } className="w-100" />
+        </div>
+        <div className="content-wrap">
+          <h2 className="title">{ title }</h2>
+          <h3 className="price">${ price }</h3>
+        </div>
+      </li>
+    );
+  }
+}
+
 
 
 /* ********************** App ************************* */
 class App extends Component {
 	state = {
-
+    evt: [],
+    searchEvt: []
 	}
 
 	title = {		// 변수 선언시 let, var, const 이런거 안써도됨 (고정값으로 된 변수를 쓸때는 굳이 state에 넣지 않고 걍 변수로 쓴다.)
@@ -70,11 +105,32 @@ class App extends Component {
 		subTitle: 'component 배우기'
 	}
 
+  async componentDidMount() {   // component가 로드되면(DOM이 랜더링 되고 나면) 바로 실행되는 함수
+    try{
+      const { data } = await axios('../json/product.json')
+      this.setState({
+        evt: [...data],
+        searchEvt: [...data]
+      })
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  onChange = content => {
+    this.setState({
+      ...this.state,
+      searchEvt: this.state.evt.filter( v => v.title.includes(content) )
+    })
+  }
+
 	render(){
 		return(
 			<div className="container">
 				<Title title={ this.title } />
-				<Search />
+				<Search onChange={ this.onChange } />
+				<Lists evt={this.state.searchEvt} />
 			</div>
 		)
 	}
