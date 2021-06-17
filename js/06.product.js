@@ -73,6 +73,11 @@ class Lists extends Component {
 }
 
 
+/* ********************** Category ************************* */
+// 클릭하면 해당 카테고리만 보이기 ( 놀라운, 좋은, 질좋은 )
+
+
+
 /* ********************** List ************************* */
 class List extends Component {
   render() {
@@ -121,7 +126,7 @@ class App extends Component {
   onChange = content => {
     this.setState({
       ...this.state,
-      searchEvt: this.state.evt.filter( v => v.title.includes(content) )
+      searchEvt: this.state.evt.filter( v => v.title.includes(content) )    // filter: 필터링 해준다. content(검색한 단어)가 들어있는 것만 표현
     })
   }
 
